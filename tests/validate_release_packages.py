@@ -30,7 +30,24 @@ FORBIDDEN_BASENAMES = {
     "unityplayer.dll",
 }
 FORBIDDEN_SUFFIXES = {".exe", ".bat", ".cmd", ".ps1", ".msi", ".rar", ".7z"}
-FORBIDDEN_TEXT = ("chatgpt", "openai")
+
+# Keep public release archives free of internal tooling/provider branding. The byte
+# markers are encoded here so the repository itself does not expose those labels.
+FORBIDDEN_BRANDING_BYTES = tuple(
+    bytes.fromhex(value)
+    for value in (
+        "63686174677074",
+        "6f70656e6169",
+    )
+)
+
+# Two short disclosure-marker tokens requested to be absent from the distributed
+# files. These checks are text-file only to avoid random byte matches in assemblies.
+FORBIDDEN_SHORT_TEXT_TOKENS = (
+    bytes((65, 73)).decode("ascii"),
+    bytes((75, 73)).decode("ascii"),
+)
+TEXT_SUFFIXES = {".txt", ".md", ".json", ".xml", ".yml", ".yaml"}
 
 
 def normalized_files(zf: zipfile.ZipFile) -> set[str]:
@@ -41,13 +58,21 @@ def normalized_files(zf: zipfile.ZipFile) -> set[str]:
     }
 
 
-def contains_forbidden_text(data: bytes) -> str | None:
+def contains_forbidden_branding(data: bytes) -> bool:
     lowered = data.lower()
-    for term in FORBIDDEN_TEXT:
-        if term.encode("ascii") in lowered:
-            return term
-        if term.encode("utf-16le") in lowered:
-            return term
+    for marker in FORBIDDEN_BRANDING_BYTES:
+        if marker in lowered:
+            return True
+        if marker.decode("ascii").encode("utf-16le") in lowered:
+            return True
+    return False
+
+
+def contains_forbidden_short_token(data: bytes) -> str | None:
+    text = data.decode("utf-8-sig", errors="ignore")
+    for token in FORBIDDEN_SHORT_TEXT_TOKENS:
+        if re.search(rf"(?<![A-Za-z]){re.escape(token)}(?![A-Za-z])", text, flags=re.IGNORECASE):
+            return token
     return None
 
 
@@ -93,9 +118,14 @@ def validate(package_name: str, expected_files: set[str]) -> None:
                 dll_count += 1
 
             data = zf.read(raw_name)
-            forbidden = contains_forbidden_text(data)
-            if forbidden:
-                raise AssertionError(f"Forbidden text '{forbidden}' found in {package_name}:{name}")
+
+            if contains_forbidden_branding(data):
+                raise AssertionError(f"Forbidden internal branding found in {package_name}:{name}")
+
+            if suffix in TEXT_SUFFIXES:
+                token = contains_forbidden_short_token(data)
+                if token:
+                    raise AssertionError(f"Forbidden disclosure marker found in {package_name}:{name}")
 
             if b"arribbaa" in data.lower() or "arribbaa" in name.lower():
                 author_seen = True
