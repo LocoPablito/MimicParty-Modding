@@ -4,6 +4,7 @@
     <AssemblyName>MimicParty10PlayerExpansion</AssemblyName>
     <RootNamespace>Arribbaa.MimicParty.TenPlayerExpansion</RootNamespace>
     <Product>Mimic Party - 10 Player Expansion</Product>
+    <Description>Mimic Party - 10 Player Expansion by arribbaa</Description>
     <Version>1.1.0</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -14,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.788" IncludeAssets="compile" />
     <PackageReference Include="HarmonyX" Version="2.10.2" IncludeAssets="compile" />
     <ProjectReference Include="..\MimicParty.ModdingCore\MimicParty.ModdingCore.csproj" />
   </ItemGroup>

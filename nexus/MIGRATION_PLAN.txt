@@ -3,23 +3,28 @@ by arribbaa
 
 DO NOT replace v1.0.1 yet.
 
-First validate the new runtime architecture locally:
+First validate the new runtime architecture locally using BepInEx 6 Unity IL2CPP Windows x64 build #788:
 
-1. If v1.0.x is currently installed, run its UNINSTALL_RESTORE_ORIGINAL.bat first.
-2. Verify Mimic Party in Steam so GameAssembly.dll is completely stock.
-3. Install BepInEx 6 Unity IL2CPP x64.
-4. Launch Mimic Party once with only BepInEx installed.
-5. Confirm BepInEx/LogOutput.txt is created.
-6. Install Mimic Party Modding Core.
-7. Confirm the Core loads without errors.
-8. Install 10 Player Expansion v1.1.
-9. Confirm the lobby shows 1/10.
-10. Test player 6 joining.
-11. Test 6-10 players, Workshop packs, voice isolation, scoring and Rematch.
-12. Test a second match after Rematch.
-13. Only after the above passes, publish the Core.
-14. Add the Core as a Nexus requirement to 10 Player Expansion.
-15. Publish v1.1 as the new primary file.
-16. Move v1.0.1 to Old/Archived after v1.1 is proven.
+1. Restore the original Mimic Party GameAssembly.dll from the old v1.0.x patch and verify game files in Steam.
+2. Install BepInEx 6 build #788 and launch Mimic Party once with only BepInEx installed.
+3. Confirm BepInEx/LogOutput.txt is created without chainloader failure.
+4. Install Mimic Party Modding Core v1.0.0.
+5. Confirm the Core loads without errors.
+6. Install 10 Player Expansion v1.1.0.
+7. Confirm the lobby shows 1/10.
+8. Test player 6 joining and remaining connected.
+9. Test 6-10 players, Workshop packs, voice isolation, takes, scoring and Rematch.
+10. Start a second game after Rematch and complete at least one round.
+11. Confirm a real disconnect still removes the player normally.
 
-This prevents breaking the already-public working v1.0.x release during migration.
+Only after all tests pass:
+
+12. Publish Mimic Party Modding Core v1.0.0 on Nexus first.
+13. Add the official BepInEx build page as the Core's external requirement.
+14. Add the public GitHub source link to the Core page.
+15. On 10 Player Expansion, add the Core v1.0.0 Main File as a file-to-file requirement.
+16. Upload v1.1.0 as an update to the existing 10 Player Expansion Main File.
+17. Set v1.1.0 Primary only after the upload is accepted and downloadable.
+18. Move v1.0.1 to Old/Archived only after v1.1.0 is confirmed working from the Nexus download.
+
+This keeps the existing public v1.0.x release available until the runtime architecture is proven end-to-end.
