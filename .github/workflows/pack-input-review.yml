@@ -1,0 +1,40 @@
+name: Inspect pinned BepInEx pack inputs
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/pack-input-review.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download upstream binaries and corresponding BepInEx source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p pack-review
+          curl --fail --location --retry 3 'https://builds.bepinex.dev/projects/bepinex_be/788/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.788%2B5b766a3.zip' -o pack-review/BepInEx_official_788.zip
+          curl --fail --location --retry 3 'https://api.github.com/repos/BepInEx/BepInEx/zipball/5b766a3b7f6c164d4798924a93f3acf4db769d06' -o pack-review/BepInEx_788_source.zip
+          python - <<'PY'
+          import zipfile, pathlib, json, hashlib
+          p=pathlib.Path('pack-review')
+          inventory={}
+          with zipfile.ZipFile(p/'BepInEx_official_788.zip') as z:
+              for n in z.namelist():
+                  if n.endswith('/'): continue
+                  b=z.read(n)
+                  inventory[n]={'Size':len(b),'SHA256':hashlib.sha256(b).hexdigest()}
+                  if n.endswith(('.json','.ini','.txt','.md')):
+                      t=p/'upstream-text'/n;t.parent.mkdir(parents=True,exist_ok=True);t.write_bytes(b)
+          (p/'inventory.json').write_text(json.dumps(inventory,indent=2))
+          print('Official archive SHA256:',hashlib.sha256((p/'BepInEx_official_788.zip').read_bytes()).hexdigest())
+          print('Files:',len(inventory))
+          PY
+      - uses: actions/upload-artifact@v6
+        with:
+          name: pinned-bepinex-pack-inputs
+          path: pack-review/
+          retention-days: 7
