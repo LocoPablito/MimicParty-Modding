@@ -1,100 +1,30 @@
-MIMIC PARTY MODDING CORE v1.0.0
-by arribbaa
+[size=5][b]Mimic Party Modding Core[/b][/size]
+[b]Version 1.0.0 — by arribbaa[/b]
 
-MOD NAME
-Mimic Party Modding Core
+The shared runtime foundation for Mimic Party mods. Install it when a feature mod lists it as a dependency. The Core alone does not raise the player limit.
 
-CATEGORY
-Miscellaneous (until a dedicated Utilities/Modding category exists for Mimic Party)
+[b]Included[/b]
+Core runtime 1.0.0 and the Interop Bootstrap 1.0.0 compatibility component. The bootstrap repairs the recognized generated CoreModule duplicate-helper issue locally; no Unity or game assembly is included.
 
-SHORT DESCRIPTION
-Shared BepInEx IL2CPP runtime foundation for Mimic Party mods, providing build detection, safe runtime pattern patching, rollback, reflection helpers and a common mod API.
+[b]Required[/b]
+Mimic Party for Windows/Steam, documented v0.1.73 build; BepInEx 6 Unity IL2CPP Windows x64 build 788.
+[url=https://builds.bepinex.dev/projects/bepinex_be/788/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.788%2B5b766a3.zip]Official BepInEx download[/url]
+BepInEx is NOT included. Do not use BepInEx 5 or a Mono build.
 
-VERSION
-1.0.0
+[b]Install[/b]
+Close the game. Restore original game files first if an older mod patched GameAssembly.dll on disk. Extract official BepInEx into the folder containing Mimic Party.exe. Extract this package into the same folder before launching. Preserve the BepInEx/plugins and BepInEx/patchers paths. Then install your feature mods and start normally through Steam.
 
-AUTHOR
-arribbaa
+Already using the author's Complete 10 Player Expansion package? The Core is already included; do not install duplicate copies.
 
-REQUIREMENT SETTING
-Use Mod requirements (legacy), because BepInEx is an external runtime requirement.
+[b]Uninstall[/b]
+Remove BepInEx/plugins/MimicPartyModdingCore.dll only when no installed mods require it. Remove BepInEx/patchers/MimicParty.InteropBootstrap.dll to remove the compatibility component. See the included guide for generated-file backups.
 
-OFF-SITE REQUIREMENT
-BepInEx 6 Unity IL2CPP Windows x64 - build #788 (6.0.0-be.788)
-Official builds: https://builds.bepinex.dev/projects/bepinex_be
-Required file: BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.788+5b766a3.zip
+[b]Compatibility and testing[/b]
+Core 1.0.0 was verified loading in an actual Windows game session with Expansion 1.1.2. The automatic bootstrap is a separate component with its own metadata and regression validation; the earlier session does not establish a fresh-install game test of that new component. Unknown future builds are not guaranteed. Exact fingerprints and validation scope are supplied in the download.
 
-FILE CATEGORY
-Main
+[b]Source / support[/b]
+[url=https://github.com/LocoPablito/MimicParty-Modding]GitHub repository and releases[/url]
+[url=https://github.com/LocoPablito/MimicParty-Modding/issues]Report a reproducible issue[/url]
+Do not publish private logs, account identifiers or game files. No telemetry or auto-updater is included in these components. BepInEx may retrieve its own reference libraries on first launch.
 
-FILE DISPLAY NAME
-Mimic Party Modding Core v1.0.0
-
-FILE VERSION
-1.0.0
-
-SET AS PRIMARY
-Yes
-
-FILE DESCRIPTION
-Core runtime dependency for Mimic Party mods by arribbaa. Provides build fingerprinting, unique executable pattern resolution, transactional runtime patching with rollback, reflection helpers and a shared mod registry. Requires BepInEx 6 Unity IL2CPP x64.
-
-SOURCE CODE
-https://github.com/LocoPablito/MimicParty-Modding
-
-BUILD INSTRUCTIONS
-https://github.com/LocoPablito/MimicParty-Modding/blob/main/BUILDING.md
-
-FULL DESCRIPTION
-Mimic Party Modding Core is a shared runtime foundation for BepInEx-based Mimic Party mods.
-
-It does not replace or redistribute BepInEx. Install the official BepInEx 6 Unity IL2CPP x64 runtime first.
-
-Features:
-- Mimic Party build fingerprinting
-- GameAssembly executable-section scanner
-- unique signature validation before runtime changes
-- transactional runtime patches with rollback
-- no permanent GameAssembly patching on disk
-- shared type/method resolution helpers
-- common mod registry/API
-- no network communication or auto-updater
-
-Plugin GUID:
-com.arribbaa.mimicparty.moddingcore
-
-Other mod authors can declare:
-[BepInDependency("com.arribbaa.mimicparty.moddingcore", ">=1.0.0")]
-
-Mods may reference the documented public Core API as an external dependency. The Core DLL itself must not be bundled/reuploaded or modified without permission from arribbaa.
-
-INSTALLATION
-1. Install BepInEx 6 Unity IL2CPP x64 build #788 into the folder containing Mimic Party.exe.
-2. Start Mimic Party once, then close it.
-3. Extract this Core archive directly into the Mimic Party game folder.
-4. Confirm BepInEx/plugins/MimicPartyModdingCore.dll exists.
-5. Start the game.
-
-VERIFY
-Open BepInEx/LogOutput.txt and look for:
-Mimic Party Modding Core v1.0.0 by arribbaa loaded.
-
-UNINSTALL
-Make sure no installed mod still depends on the Core, then delete BepInEx/plugins/MimicPartyModdingCore.dll.
-
-CREDITS
-arribbaa - Mimic Party Modding Core
-BepInEx Team - BepInEx runtime/plugin framework
-HarmonyX contributors - runtime patching framework used through BepInEx
-
-No BepInEx, HarmonyX, or original Mimic Party binaries are included in the download.
-
-PERMISSIONS
-Use custom permissions matching src/MimicParty.ModdingCore/LICENSE.txt: dependency/API use is allowed; redistribution, bundling, re-uploading, modifying, repackaging, porting or selling the Core requires prior permission from arribbaa.
-
-CHANGELOG
-Initial v1.0.0 release.
-Added Mimic Party build fingerprinting.
-Added executable-section pattern scanner.
-Added transactional runtime patching and rollback.
-Added reflection helpers and shared mod registry.
+Mimic Party, Unity and BepInEx belong to their respective owners. This is an unofficial community project.

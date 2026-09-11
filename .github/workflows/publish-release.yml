@@ -1,0 +1,42 @@
+name: Publish verified Core release
+on:
+  push:
+    branches: [main]
+    paths: ['RELEASE_NOTES.md', '.github/workflows/publish-release.yml', 'scripts/package_release.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency: core-release-1.0.0
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Preserve public-development archive for the author
+        run: |
+          mkdir -p author-archive
+          git bundle create author-archive/Core-development.bundle --all
+      - uses: actions/upload-artifact@v6
+        with:
+          name: Core-author-development-archive
+          path: author-archive/
+          retention-days: 1
+      - name: Retrieve exact validated artifacts
+        run: |
+          gh run download 34606013538 --repo "$GITHUB_REPOSITORY" -n MimicParty-Modding-Core -D _release-input/core
+          gh run download 34628163123 --repo "$GITHUB_REPOSITORY" -n interop-bootstrap-validation -D _release-input/bootstrap
+          python scripts/package_release.py
+      - uses: actions/upload-artifact@v6
+        with:
+          name: Core-public-release-files
+          path: dist/
+          retention-days: 30
+      - name: Publish immutable versioned assets
+        run: |
+          gh release create v1.0.0 dist/MimicParty_Modding_Core_v1.0.0.zip dist/SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "Mimic Party Modding Core 1.0.0" --notes-file RELEASE_NOTES.md

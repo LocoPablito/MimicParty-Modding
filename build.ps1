@@ -1,19 +1,7 @@
-$ErrorActionPreference = "Stop"
-
-$Root = Split-Path -Parent $MyInvocation.MyCommand.Path
-
-if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {
-    throw ".NET SDK not found. Install .NET 8 SDK (or newer), then run this script again."
+$ErrorActionPreference = 'Stop'
+$Root = $PSScriptRoot
+foreach ($Project in @('MimicParty.ModdingCore', 'MimicParty.InteropBootstrap')) {
+    dotnet build (Join-Path $Root "src/$Project") -c Release
+    if ($LASTEXITCODE -ne 0) { throw "Build failed: $Project" }
 }
-
-$Project = Join-Path $Root "src\MimicParty.ModdingCore\MimicParty.ModdingCore.csproj"
-
-Push-Location $Root
-try {
-    dotnet restore $Project
-    dotnet build $Project -c Release --no-restore
-    & "$Root\package.ps1"
-}
-finally {
-    Pop-Location
-}
+Write-Host 'Source builds completed. Public release artifacts preserve their separately recorded verified binaries.'

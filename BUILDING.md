@@ -1,49 +1,15 @@
-# Building Mimic Party Modding Core
+# Building and release provenance
 
-by arribbaa
-
-## Requirements
-
-- .NET 8 SDK or newer
-- Internet access for NuGet restore
-
-The Core targets BepInEx 6 Unity IL2CPP build #788 (`6.0.0-be.788`).
-
-## Build
+Use the .NET 8 SDK. Core targets net6.0 to match the embedded BepInEx runtime.
 
 ```powershell
-./build.ps1
+dotnet build src/MimicParty.ModdingCore -c Release
+dotnet build src/MimicParty.InteropBootstrap -c Release
+dotnet run --project tests/InteropBootstrap.Tests -c Release -f net8.0
 ```
 
-The script restores and builds:
+The public release keeps the exact Core binary from the verified CI artifact: source commit `46c03672bab67ed32a060198ec8f2d56d3fdfd6a`, workflow run `34606013538`. A fresh build from a later documentation commit can produce different assembly metadata and hashes even when runtime source is unchanged. Do not describe an unverified rebuild as byte-identical.
 
-```text
-src/MimicParty.ModdingCore/MimicParty.ModdingCore.csproj
-```
+The bootstrap is built separately and its hash/source revision are recorded in the public package provenance. BepInEx and .NET build dependencies are retrieved from their declared package feeds during CI, not by the installed Core/Bootstrap at runtime.
 
-Then it creates the Nexus-ready archive in `dist/`.
-
-## Output
-
-```text
-dist/
-├─ MimicParty_Modding_Core_v1.0.0_by_arribbaa_NEXUS.zip
-└─ SHA256SUMS.txt
-```
-
-The public Core archive contains only:
-
-```text
-BepInEx/plugins/MimicPartyModdingCore.dll
-README.txt
-CHANGELOG.txt
-LICENSE.txt
-```
-
-It does not bundle BepInEx, feature mods, HarmonyX, or original Mimic Party binaries.
-
-## Feature mods
-
-Feature mods are maintained in separate repositories. The 10 Player Expansion lives at:
-
-https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion
+Developer regression fixtures remain public for inspection. Private game captures, generated assemblies and diagnostic result archives do not belong in this repository or in release assets.

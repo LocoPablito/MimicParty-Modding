@@ -1,12 +1,15 @@
-MIMIC PARTY MODDING CORE - LICENSE
+MIMIC PARTY MODDING CORE AND INTEROP BOOTSTRAP - LICENSE
 by arribbaa
 
 Copyright (c) 2026 arribbaa. All rights reserved.
 
+Personal use with a legitimate copy of Mimic Party is permitted.
 Permission is granted to create and distribute independent Mimic Party mods that reference MimicPartyModdingCore.dll as an external dependency and use its documented public API.
 
-This permission does not grant the right to redistribute, bundle, re-upload, modify, repackage, port, sell, or publish derivative versions of MimicPartyModdingCore.dll or its source code without prior permission from arribbaa.
+This permission does not grant the right to redistribute, bundle, re-upload, modify, repackage, port, sell, or publish derivative versions of these components or their source code without prior permission from arribbaa.
 
-Dependent mods should direct users to the official Mimic Party Modding Core download rather than bundling the Core DLL.
+The official Complete package of Mimic Party - 10 Player Expansion, published by arribbaa, is an authorized first-party distribution of the Core and Interop Bootstrap. This exception does not authorize third-party bundles.
 
-BepInEx, HarmonyX, Mimic Party, and all related third-party trademarks and software remain the property of their respective owners/projects.
+BepInEx, HarmonyX, Mimic Party, Unity and related third-party trademarks and software remain the property of their respective owners/projects. They are not included in the Core runtime download.
+
+THE SOFTWARE IS PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND.
