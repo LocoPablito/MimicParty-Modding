@@ -10,5 +10,6 @@
     <Copyright>Copyright © 2026 arribbaa</Copyright>
     <RepositoryUrl>https://github.com/LocoPablito/MimicParty-Modding</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <WarningsAsErrors>$(WarningsAsErrors);NU1603</WarningsAsErrors>
   </PropertyGroup>
 </Project>
