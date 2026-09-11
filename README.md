@@ -1,4 +1,4 @@
-# Mimic Party Modding Platform — by arribbaa
+# Mimic Party Modding Platform
 
 This repository contains the source for:
 
