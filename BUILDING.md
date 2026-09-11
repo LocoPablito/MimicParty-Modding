@@ -11,10 +11,13 @@ No Mimic Party game binaries are required to compile the source.
 
 ## Requirements
 
-- Windows, Linux, or macOS build host with the .NET 8 SDK or newer
+- Windows, Linux, or macOS build host with the .NET 8 SDK
+- The release CI is pinned to **.NET SDK 8.0.425**
 - Internet access to restore NuGet packages
 
-The projects target `.NET 6.0` and pin the BepInEx compile dependency to `BepInEx.Unity.IL2CPP 6.0.0-be.788`. HarmonyX is pinned to the version used by that BepInEx runtime line.
+The projects target `.NET 6.0` and pin the BepInEx compile dependency to `BepInEx.Unity.IL2CPP 6.0.0-be.788`. HarmonyX is pinned to `2.10.2`, matching the BepInEx runtime line used for release validation.
+
+Package restore uses the public NuGet, BepInEx, and Samboy package feeds declared by the project files so BepInEx's Cpp2IL dependency resolves to its requested build instead of silently falling back to another version.
 
 ## One-command build
 
@@ -44,6 +47,8 @@ python ./tests/validate_release_packages.py
 ```
 
 The validator checks the exact Nexus archive layout and rejects unexpected executables/scripts, nested archives, original Mimic Party binaries, missing author attribution, or prohibited internal branding strings.
+
+NuGet dependency-version fallback warning `NU1603` is treated as an error for release builds.
 
 ## Continuous integration
 
