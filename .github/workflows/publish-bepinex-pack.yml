@@ -1,0 +1,58 @@
+name: Package and publish Mimic Party BepInEx Pack
+on:
+  push:
+    branches: [main]
+    paths: ['distribution/BepInExPack/**', '.github/workflows/publish-bepinex-pack.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency: mimicparty-bepinex-pack-1.0.0
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Require the successful developer build and collect exact pinned inputs
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/34633663729 --jq .conclusion)" = success
+          gh run download 34633327708 -n pinned-bepinex-pack-inputs -D _pack/raw
+          gh run download 34633663729 -n core-starter-and-pack-review -D _pack/review
+          gh run download 34633949615 -n pinned-pack-source-material -D _pack/legal
+          gh run download 34634188629 -n pack-dependency-sources -D _pack/deps
+          mkdir -p _pack/core
+          gh release download v1.0.0 --repo "$GITHUB_REPOSITORY" -p MimicParty_Modding_Core_v1.0.0.zip -D _pack/core
+      - name: Assemble and validate runtime, source and developer archives
+        run: python distribution/BepInExPack/build_pack.py
+      - uses: actions/upload-artifact@v6
+        with:
+          name: MimicParty-Core-And-BepInEx-Pack-Release
+          path: pack-dist/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish versioned pack and sources; add starter to existing Core release
+        run: |
+          set -euo pipefail
+          cat > pack-notes.md <<'EOF'
+          # BepInEx Pack for Mimic Party 1.0.0
+
+          Pack configuration and maintenance: **arribbaa**. Original loader: **BepInEx team and contributors**.
+
+          Official **BepInEx 6.0.0-be.788, Unity IL2CPP Windows x64**, with all 228 original files preserved, plus the existing Interop Bootstrap 1.0.0 and a Mimic Party preset (console hidden, disk log enabled). The .NET runtime is included by upstream. No extra BepInEx download is needed.
+
+          This pack does **not** contain Modding Core or the 10 Player Expansion. Install the separate Core if your chosen mod requires it. Complete Expansion users already have Core. Identical Bootstrap files use the same path; never install renamed duplicates.
+
+          Extract the runtime ZIP into the folder containing Mimic Party.exe before launch. Back up an existing loader/configuration rather than blindly overwriting it. Read README_BEPINEX_PACK.txt. Documented target: Windows/Steam game v0.1.73, Unity 6000.4.2f1; future builds are not guaranteed.
+
+          **Test boundary:** package contents and unchanged upstream bytes are verified; the Bootstrap has 23 Windows regression checks and six supplied-file metadata checks. A fresh Windows game launch of this pack is not yet recorded. This is not a full runtime or antivirus certification.
+
+          The **SOURCES** ZIP contains corresponding library source/build material and licenses; it is for review/rebuilding, not installation into the game. Keep it available alongside the binary distribution when mirroring on Nexus. BepInEx/UnityDoorstop LGPL and Il2CppInterop LGPL/GPL rights remain intact. Other dependencies retain their individual licenses and credits.
+
+          Core runtime: see release v1.0.0. Mod-author starter: included as a separate Core release asset, compile-tested against the existing runtime DLL.
+          EOF
+          gh release create bepinex-pack-v1.0.0 pack-dist/BepInEx_Pack_for_Mimic_Party_v1.0.0.zip pack-dist/BepInEx_Pack_for_Mimic_Party_v1.0.0_SOURCES.zip pack-dist/SHA256SUMS.txt pack-dist/PACK_VALIDATION.json --target "$GITHUB_SHA" --title "BepInEx Pack for Mimic Party 1.0.0 - by arribbaa" --notes-file pack-notes.md --latest=false
+          gh release upload v1.0.0 pack-dist/MimicParty_Core_Developer_Starter_v1.0.0.zip
