@@ -1,4 +1,4 @@
-name: Build Mimic Party mods
+name: Build Mimic Party Modding Core
 
 on:
   workflow_dispatch:
@@ -22,18 +22,18 @@ jobs:
         with:
           dotnet-version: '8.0.425'
 
-      - name: Restore, build and package
+      - name: Restore, build and package Core
         shell: pwsh
         run: ./build.ps1
 
-      - name: Validate Nexus package layout and policy
+      - name: Validate Core release package
         shell: pwsh
         run: python ./tests/validate_release_packages.py
 
-      - name: Upload Nexus-ready artifacts
+      - name: Upload Nexus-ready Core artifact
         uses: actions/upload-artifact@v6
         with:
-          name: MimicParty-Mod-Releases
+          name: MimicParty-Modding-Core
           path: |
             dist/*.zip
             dist/SHA256SUMS.txt
