@@ -10,6 +10,7 @@ internal sealed class HarmonyRuntimeHooks : IDisposable
     private readonly Harmony _harmony;
     private readonly ManualLogSource _log;
     private bool _installed;
+    private bool _patchingStarted;
 
     public HarmonyRuntimeHooks(ManualLogSource log)
     {
@@ -22,6 +23,8 @@ internal sealed class HarmonyRuntimeHooks : IDisposable
         if (_installed)
             return;
 
+        // Resolve every required type/method first. No Harmony patch is applied until
+        // the complete target set has been validated for the running game build.
         Type fusionNetwork = ReflectionResolver.FindUniqueType(
             "FusionNetworkService",
             "get_MaxPlayers",
@@ -42,65 +45,77 @@ internal sealed class HarmonyRuntimeHooks : IDisposable
             "DropSilentPlayers");
 
         Type roundPhase = ReflectionResolver.FindUniqueType("RoundPhase");
-
         if (!roundPhase.IsEnum)
             throw new TypeLoadException($"Resolved type '{roundPhase.FullName}' is not an enum.");
 
         object playback = Enum.Parse(roundPhase, "Playback", ignoreCase: false);
         int playbackPhaseValue = Convert.ToInt32(playback);
 
-        RuntimeState.Configure(RuntimeState.DesiredMaxPlayers, playbackPhaseValue);
-
-        PatchPostfix(
-            ReflectionResolver.FindUniqueMethod(fusionNetwork, "get_MaxPlayers", 0),
-            nameof(MaxPlayersPostfix));
-
-        Type? offlineNetwork = ReflectionResolver.TryFindUniqueType("OfflineNetworkService", "get_MaxPlayers");
-        if (offlineNetwork is not null)
-        {
-            PatchPostfix(
-                ReflectionResolver.FindUniqueMethod(offlineNetwork, "get_MaxPlayers", 0),
-                nameof(MaxPlayersPostfix));
-        }
-
-        PatchPostfix(
-            ReflectionResolver.FindUniqueMethod(roundController, "SetPhase", 1),
-            nameof(SetPhasePostfix));
-
-        PatchPostfix(
-            ReflectionResolver.FindUniqueMethod(roundController, "PublishCurrentPlayer", 1),
-            nameof(PublishCurrentPlayerPostfix));
-
-        PatchPostfix(
-            ReflectionResolver.FindUniqueMethod(voiceDirector, "get_Open", 0),
-            nameof(VoiceOpenPostfix));
-
-        PatchPrefix(
-            ReflectionResolver.FindUniqueMethod(resultsScreen, "LaunchRematch", 0),
-            nameof(LaunchRematchPrefix));
-        PatchPostfix(
-            ReflectionResolver.FindUniqueMethod(resultsScreen, "LaunchRematch", 0),
-            nameof(LaunchRematchPostfix));
-        PatchFinalizer(
-            ReflectionResolver.FindUniqueMethod(resultsScreen, "LaunchRematch", 0),
-            nameof(LaunchRematchFinalizer));
+        MethodInfo maxPlayers = ReflectionResolver.FindUniqueMethod(fusionNetwork, "get_MaxPlayers", 0);
+        MethodInfo setPhase = ReflectionResolver.FindUniqueMethod(roundController, "SetPhase", 1);
+        MethodInfo publishCurrentPlayer = ReflectionResolver.FindUniqueMethod(roundController, "PublishCurrentPlayer", 1);
+        MethodInfo voiceOpen = ReflectionResolver.FindUniqueMethod(voiceDirector, "get_Open", 0);
+        MethodInfo launchRematch = ReflectionResolver.FindUniqueMethod(resultsScreen, "LaunchRematch", 0);
 
         MethodInfo dropSilent = resultsScreen
             .GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
             .Single(m => m.Name == "DropSilentPlayers");
 
-        PatchPrefix(dropSilent, nameof(DropSilentPlayersPrefix));
+        Type? offlineNetwork = ReflectionResolver.TryFindUniqueType("OfflineNetworkService", "get_MaxPlayers");
+        MethodInfo? offlineMaxPlayers = offlineNetwork is null
+            ? null
+            : ReflectionResolver.FindUniqueMethod(offlineNetwork, "get_MaxPlayers", 0);
 
         Type? gameState = ReflectionResolver.TryFindUniqueType("GameState", "ResetForRematch");
-        if (gameState is not null)
-        {
-            PatchPostfix(
-                ReflectionResolver.FindUniqueMethod(gameState, "ResetForRematch", 0),
-                nameof(ResetRoundStatePostfix));
-        }
+        MethodInfo? resetForRematch = gameState is null
+            ? null
+            : ReflectionResolver.FindUniqueMethod(gameState, "ResetForRematch", 0);
 
-        _installed = true;
-        _log.LogInfo($"Harmony runtime hooks installed. Playback enum value = {playbackPhaseValue}.");
+        RuntimeState.Configure(RuntimeState.DesiredMaxPlayers, playbackPhaseValue);
+
+        try
+        {
+            _patchingStarted = true;
+
+            PatchPostfix(maxPlayers, nameof(MaxPlayersPostfix));
+
+            if (offlineMaxPlayers is not null)
+                PatchPostfix(offlineMaxPlayers, nameof(MaxPlayersPostfix));
+
+            PatchPostfix(setPhase, nameof(SetPhasePostfix));
+            PatchPostfix(publishCurrentPlayer, nameof(PublishCurrentPlayerPostfix));
+            PatchPostfix(voiceOpen, nameof(VoiceOpenPostfix));
+
+            PatchPrefix(launchRematch, nameof(LaunchRematchPrefix));
+            PatchPostfix(launchRematch, nameof(LaunchRematchPostfix));
+            PatchFinalizer(launchRematch, nameof(LaunchRematchFinalizer));
+
+            // Skip the stock replay-vote cleanup only while LaunchRematch executes.
+            // Other callers of DropSilentPlayers remain untouched.
+            PatchPrefix(dropSilent, nameof(DropSilentPlayersPrefix));
+
+            if (resetForRematch is not null)
+                PatchPostfix(resetForRematch, nameof(ResetRoundStatePostfix));
+
+            _installed = true;
+            _patchingStarted = false;
+            _log.LogInfo($"Harmony runtime hooks installed. Playback enum value = {playbackPhaseValue}.");
+        }
+        catch
+        {
+            // Harmony can fail after one or more hooks have already been installed.
+            // Remove every patch owned by this Harmony ID before propagating the
+            // error so a failed plugin load cannot leave a partially patched game.
+            try { _harmony.UnpatchSelf(); }
+            finally
+            {
+                _installed = false;
+                _patchingStarted = false;
+                RuntimeState.ResetRoundState();
+            }
+
+            throw;
+        }
     }
 
     private void PatchPrefix(MethodBase target, string patchMethod) =>
@@ -114,12 +129,19 @@ internal sealed class HarmonyRuntimeHooks : IDisposable
 
     public void Dispose()
     {
-        if (!_installed)
+        if (!_installed && !_patchingStarted)
             return;
 
-        _harmony.UnpatchSelf();
-        _installed = false;
-        RuntimeState.ResetRoundState();
+        try
+        {
+            _harmony.UnpatchSelf();
+        }
+        finally
+        {
+            _installed = false;
+            _patchingStarted = false;
+            RuntimeState.ResetRoundState();
+        }
     }
 
     private static void MaxPlayersPostfix(ref int __result)
@@ -145,6 +167,8 @@ internal sealed class HarmonyRuntimeHooks : IDisposable
 
     private static void VoiceOpenPostfix(ref bool __result)
     {
+        // Never reopen voice that the stock game already closed. This only adds the
+        // active-performance isolation condition on top of the stock result.
         if (__result && RuntimeState.ShouldCloseLiveVoice)
             __result = false;
     }
