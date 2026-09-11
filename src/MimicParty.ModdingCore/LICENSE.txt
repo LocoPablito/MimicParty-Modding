@@ -1,0 +1,12 @@
+MIMIC PARTY MODDING CORE - LICENSE
+by arribbaa
+
+Copyright (c) 2026 arribbaa. All rights reserved.
+
+Permission is granted to create and distribute independent Mimic Party mods that reference MimicPartyModdingCore.dll as an external dependency and use its documented public API.
+
+This permission does not grant the right to redistribute, bundle, re-upload, modify, repackage, port, sell, or publish derivative versions of MimicPartyModdingCore.dll or its source code without prior permission from arribbaa.
+
+Dependent mods should direct users to the official Mimic Party Modding Core download rather than bundling the Core DLL.
+
+BepInEx, HarmonyX, Mimic Party, and all related third-party trademarks and software remain the property of their respective owners/projects.
