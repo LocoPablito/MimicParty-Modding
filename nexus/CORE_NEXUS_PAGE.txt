@@ -42,6 +42,9 @@ Core runtime dependency for Mimic Party mods by arribbaa. Provides build fingerp
 SOURCE CODE
 https://github.com/LocoPablito/MimicParty-Modding
 
+BUILD INSTRUCTIONS
+https://github.com/LocoPablito/MimicParty-Modding/blob/main/BUILDING.md
+
 FULL DESCRIPTION
 Mimic Party Modding Core is a shared runtime foundation for BepInEx-based Mimic Party mods.
 
