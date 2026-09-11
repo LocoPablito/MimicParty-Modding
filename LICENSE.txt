@@ -1,0 +1,10 @@
+ALL RIGHTS RESERVED
+
+Copyright (c) 2026 arribbaa
+
+Personal use with Mimic Party is permitted.
+
+Redistribution, repackaging, commercial use, ports, or publishing modified versions
+requires prior permission from arribbaa.
+
+BepInEx and Mimic Party remain the property of their respective owners/projects.
