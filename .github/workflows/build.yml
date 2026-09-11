@@ -6,26 +6,35 @@ on:
     branches: [ "main" ]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
-      - name: Restore and build
+      - name: Restore, build and package
         shell: pwsh
         run: ./build.ps1
 
+      - name: Validate Nexus package layout and policy
+        shell: pwsh
+        run: python ./tests/validate_release_packages.py
+
       - name: Upload Nexus-ready artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: MimicParty-Mod-Releases
-          path: dist/*.zip
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
           if-no-files-found: error
