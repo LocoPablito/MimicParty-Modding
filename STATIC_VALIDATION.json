@@ -23,6 +23,13 @@
     }
   ],
   "source_structure_check": "PASS",
-  "compile_status": "Pending GitHub Actions",
+  "compile_status": "PASS",
+  "compile_ci_run_id": 34549772636,
+  "compiled_artifacts": {
+    "MimicPartyModdingCore.dll_sha256": "1293eafe9d9955baf09b68a094f5d0a6ca19b94529d9e92dfe9919bbdf273934",
+    "MimicParty10PlayerExpansion.dll_sha256": "04fb01fe79756498fc0dc9043ab7323ce8cbe43fd6799d42db511ad85658f46e",
+    "MimicParty_Modding_Core_v1.0.0_by_arribbaa_NEXUS.zip_sha256": "ecd83d15e9269b19dd0b2960f9cfbfdbe884cb216aed85017687c5ae24d92495",
+    "MimicParty_10_Player_Expansion_v1.1.0_by_arribbaa_NEXUS.zip_sha256": "37203e248e80d01f31c06aaaa6ab4bb88dfe3f21d646684ea0f4744e245c3594"
+  },
   "runtime_status": "Pending local BepInEx/Mimic Party integration test"
 }
