@@ -1,0 +1,25 @@
+NEXUS MIGRATION PLAN
+by arribbaa
+
+DO NOT replace v1.0.1 yet.
+
+First validate the new runtime architecture locally:
+
+1. If v1.0.x is currently installed, run its UNINSTALL_RESTORE_ORIGINAL.bat first.
+2. Verify Mimic Party in Steam so GameAssembly.dll is completely stock.
+3. Install BepInEx 6 Unity IL2CPP x64.
+4. Launch Mimic Party once with only BepInEx installed.
+5. Confirm BepInEx/LogOutput.txt is created.
+6. Install Mimic Party Modding Core.
+7. Confirm the Core loads without errors.
+8. Install 10 Player Expansion v1.1.
+9. Confirm the lobby shows 1/10.
+10. Test player 6 joining.
+11. Test 6-10 players, Workshop packs, voice isolation, scoring and Rematch.
+12. Test a second match after Rematch.
+13. Only after the above passes, publish the Core.
+14. Add the Core as a Nexus requirement to 10 Player Expansion.
+15. Publish v1.1 as the new primary file.
+16. Move v1.0.1 to Old/Archived after v1.1 is proven.
+
+This prevents breaking the already-public working v1.0.x release during migration.
