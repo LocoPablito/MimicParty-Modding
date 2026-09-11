@@ -25,21 +25,15 @@ jobs:
           for name in tracked:
               p=Path(name)
               if p.suffix.lower() not in {'.md','.txt'} or not p.is_file(): continue
-              text=p.read_text(encoding='utf-8').replace('R2','R3')
               if p.name.lower().startswith('license'): continue
+              text=p.read_text(encoding='utf-8').replace('R2','R3')
               def replace(m):
                   url=m.group(2)
                   if re.match(r'^[a-zA-Z][a-zA-Z0-9+.-]*:',url) or url.startswith('#'): return m.group(0)
                   target=posixpath.normpath(posixpath.join(p.parent.as_posix(),url.split('#')[0]))
                   if not (root/target).exists(): raise ValueError('Broken repository link: '+name+' -> '+url)
                   return m.group(1)+base+target+('#'+url.split('#',1)[1] if '#' in url else '')+')'
-              text=re.sub(r'(\[[^\]]+\]\()([^\s)]+)\)',replace,text)
-              p.write_text(text,encoding='utf-8')
-          wf=Path('.github/workflows/release.yml')
-          text=wf.read_text(); marker='      - name: Publish new revision without replacing existing assets\n'
-          addition='      - name: Capture publication source\n        shell: pwsh\n        run: |\n          New-Item -ItemType Directory -Force -Path publication-source | Out-Null\n          git archive --format=zip -o publication-source/source.zip HEAD\n      - uses: actions/upload-artifact@v6\n        with:\n          name: publication-source\n          path: publication-source/\n          retention-days: 3\n'
-          if marker not in text: raise ValueError('Publication step missing')
-          wf.write_text(text.replace(marker,addition+marker))
+              p.write_text(re.sub(r'(\[[^\]]+\]\()([^\s)]+)\)',replace,text),encoding='utf-8')
           Path('.github/workflows/finalize-publication.yml').unlink()
       - name: Commit final metadata and publish
         run: |
@@ -48,4 +42,11 @@ jobs:
           git add -A
           git commit -m "Finalize portable release documentation"
           git push origin HEAD:main
+          mkdir -p "$RUNNER_TEMP/publication-source"
+          git archive --format=zip -o "$RUNNER_TEMP/publication-source/source.zip" HEAD
           gh workflow run release.yml --repo "$GITHUB_REPOSITORY" --ref main
+      - uses: actions/upload-artifact@v6
+        with:
+          name: publication-source
+          path: ${{ runner.temp }}/publication-source/
+          retention-days: 1
