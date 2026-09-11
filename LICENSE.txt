@@ -1,15 +1,12 @@
-MIMIC PARTY MODDING PLATFORM - REPOSITORY LICENSE
+MIMIC PARTY MODDING CORE - LICENSE
 by arribbaa
 
 Copyright (c) 2026 arribbaa. All rights reserved.
 
-Unless a more specific LICENSE.txt exists inside a project directory, source code and documentation in this repository may not be redistributed, re-uploaded, repackaged, modified, ported, sold, or published as a derivative work without prior permission from arribbaa.
+Permission is granted to create and distribute independent Mimic Party mods that reference MimicPartyModdingCore.dll as an external dependency and use its documented public API.
 
-Project-specific license files take precedence for files within their project:
+This permission does not grant the right to redistribute, bundle, re-upload, modify, repackage, port, sell, or publish derivative versions of MimicPartyModdingCore.dll or its source code without prior permission from arribbaa.
 
-- src/MimicParty.ModdingCore/LICENSE.txt
-- src/MimicParty.TenPlayerExpansion/LICENSE.txt
-
-The Mimic Party Modding Core license explicitly permits independent mods to reference the published Core DLL/API as an external dependency without bundling or redistributing the Core itself.
+Dependent mods should direct users to the official Mimic Party Modding Core download rather than bundling the Core DLL.
 
 BepInEx, HarmonyX, Mimic Party, and all related third-party trademarks and software remain the property of their respective owners/projects.
