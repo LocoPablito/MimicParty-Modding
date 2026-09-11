@@ -5,5 +5,10 @@
     <Deterministic>true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
     <DebugType>portable</DebugType>
+    <Authors>arribbaa</Authors>
+    <Company>arribbaa</Company>
+    <Copyright>Copyright © 2026 arribbaa</Copyright>
+    <RepositoryUrl>https://github.com/LocoPablito/MimicParty-Modding</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 </Project>
