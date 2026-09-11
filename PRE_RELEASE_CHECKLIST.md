@@ -8,8 +8,8 @@ Do not publish the Core or 10 Player Expansion v1.1 binaries until all items pas
 - [x] Runtime patch transaction validates all requested patches before writing
 - [x] Runtime rollback logic implemented
 - [x] v1.0.x on-disk patch migration warning documented
-- [ ] Core project compiles in GitHub Actions
-- [ ] 10 Player Expansion project compiles in GitHub Actions
+- [x] Core project compiles in GitHub Actions
+- [x] 10 Player Expansion project compiles in GitHub Actions
 - [ ] BepInEx 6 IL2CPP starts Mimic Party successfully
 - [ ] Core loads without errors in BepInEx/LogOutput.txt
 - [ ] Expansion loads without errors
