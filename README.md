@@ -17,7 +17,7 @@ Feature mods
 Current feature mod:
 
 - **Mimic Party - 10 Player Expansion**  
-  https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion
+  https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion
 
 ## What the Core provides
 
