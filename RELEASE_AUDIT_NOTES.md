@@ -1,10 +1,12 @@
-# Release audit notes
+# Release audit notes — Mimic Party Modding Core
 
-This file intentionally tracks the remaining release gate for the runtime architecture.
+This repository is Core-only.
 
-- Source compiles in GitHub Actions.
-- Runtime capacity signatures were validated against the 2026-09-05 and 2026-09-11 GameAssembly builds.
-- Nexus packages are compiled BepInEx plugins and do not permanently modify GameAssembly.dll on disk.
-- **Runtime/in-game validation is still required before Nexus publication:** BepInEx startup, Core load, 1/10 lobby, player 6+, voice isolation, scoring, Rematch, second round, and normal disconnect behavior.
+- Core source compiles in GitHub Actions.
+- Public package contains only the Core plugin DLL and documentation.
+- Feature mods are maintained separately and are not bundled here.
+- Core runtime services are designed to avoid permanent `GameAssembly.dll` modification on disk.
+- Runtime/in-game validation is still required before the first Nexus Core release: BepInEx startup, Core load, build fingerprinting, registry/API initialization, clean game exit, and confirmation that `GameAssembly.dll` remains unchanged.
 
-Do not publish the runtime v1.1 architecture as the primary Nexus file until the runtime checklist passes.
+10 Player Expansion repository:
+https://github.com/LocoPablito/Mimic-Party---10-Player-Expansion
