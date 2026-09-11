@@ -10,4 +10,4 @@ Mimic Party_Data/il2cpp_data/Metadata/global-metadata.dat SHA-256:
 
 Core 1.0.0 loaded successfully with Expansion 1.1.2 in this Windows installation. The Developer Starter compiled against the released Core API. This library does not make an arbitrary dependent mod multiplayer-safe or universally compatible.
 
-The BepInEx Pack's automatic bootstrap has separate metadata and regression verification; a fresh Windows game launch through that automatic route is not yet confirmed. R2 leaves the Core runtime bytes unchanged. Future updates are not automatically supported.
+The BepInEx Pack's automatic bootstrap has separate metadata and regression verification; a fresh Windows game launch through that automatic route is not yet confirmed. R3 leaves the Core runtime bytes unchanged. Future updates are not automatically supported.

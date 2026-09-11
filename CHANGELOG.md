@@ -1,6 +1,6 @@
 # Changelog
 
-## Packaging revision R2 — 11 September 2026
+## Packaging revision R3 — 11 September 2026
 
 - Connects the dedicated Core, BepInEx Pack and Expansion pages.
 - Uses BepInEx Pack as the explicit loader/bootstrap requirement.

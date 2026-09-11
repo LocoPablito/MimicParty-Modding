@@ -13,7 +13,7 @@ Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1. The
 3. Extract the Core runtime ZIP into the same folder.
 4. Install the feature mod you want to use and start normally through Steam.
 
-This R2 archive installs BepInEx/plugins/MimicPartyModdingCore.dll. It no longer duplicates the Pack's bootstrap. The Core DLL remains byte-for-byte identical to runtime 1.0.0. Documentation has its own MimicPartyModdingCore/ directory.
+This R3 archive installs BepInEx/plugins/MimicPartyModdingCore.dll. It no longer duplicates the Pack's bootstrap. The Core DLL remains byte-for-byte identical to runtime 1.0.0. Documentation has its own MimicPartyModdingCore/ directory.
 
 Already using the older Expansion Complete package? Its Core DLL is the same version. Do not install renamed duplicates or delete the shared bootstrap in BepInEx/patchers.
 

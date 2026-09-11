@@ -2,7 +2,7 @@
 
 Core GUID: `com.arribbaa.mimicparty.moddingcore`. Runtime: **1.0.0**. Namespace: `Arribbaa.MimicParty.ModdingCore`.
 
-[Starter project](../examples/StarterMod/README.md) · [Core download](https://www.nexusmods.com/mimicparty/mods/2) · [Loader Pack](https://www.nexusmods.com/mimicparty/mods/3)
+[Starter project](https://github.com/LocoPablito/MimicParty-Modding/blob/main/examples/StarterMod/README.md) · [Core download](https://www.nexusmods.com/mimicparty/mods/2) · [Loader Pack](https://www.nexusmods.com/mimicparty/mods/3)
 
 ## Declare a dependency
 

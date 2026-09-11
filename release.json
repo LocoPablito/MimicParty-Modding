@@ -2,11 +2,29 @@
   "Author": "arribbaa",
   "Component": "core",
   "Version": "1.0.0",
-  "Revision": 2,
-  "Tag": "v1.0.0-r2",
-  "Nexus": {"core":"https://www.nexusmods.com/mimicparty/mods/2","expansion":"https://www.nexusmods.com/mimicparty/mods/1","pack":"https://www.nexusmods.com/mimicparty/mods/3"},
-  "Repositories": {"core":"https://github.com/LocoPablito/MimicParty-Modding","expansion":"https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion","pack":"https://github.com/LocoPablito/BepInEx-Pack-for-Mimic-Party"},
-  "BinaryVersions": {"Core":"1.0.0"},
-  "BinarySHA256": {"Core":"4ebd390eb5a587999a34919cea2309d7d81bffd992816971c54e07553727b87d"},
-  "Inputs": {"Core":{"File":"MimicParty_Modding_Core_v1.0.0.zip","URL":"https://github.com/LocoPablito/MimicParty-Modding/releases/download/v1.0.0/MimicParty_Modding_Core_v1.0.0.zip","SHA256":"0d5977e016c3236f276ebef9a1e8a12ebdd9faa4620378981b450ffc40a5ea3b"}}
+  "Revision": 3,
+  "Tag": "v1.0.0-r3",
+  "Nexus": {
+    "core": "https://www.nexusmods.com/mimicparty/mods/2",
+    "expansion": "https://www.nexusmods.com/mimicparty/mods/1",
+    "pack": "https://www.nexusmods.com/mimicparty/mods/3"
+  },
+  "Repositories": {
+    "core": "https://github.com/LocoPablito/MimicParty-Modding",
+    "expansion": "https://github.com/LocoPablito/Mimic-Party-10-Player-Expansion",
+    "pack": "https://github.com/LocoPablito/BepInEx-Pack-for-Mimic-Party"
+  },
+  "BinaryVersions": {
+    "Core": "1.0.0"
+  },
+  "BinarySHA256": {
+    "Core": "4ebd390eb5a587999a34919cea2309d7d81bffd992816971c54e07553727b87d"
+  },
+  "Inputs": {
+    "Core": {
+      "File": "MimicParty_Modding_Core_v1.0.0.zip",
+      "URL": "https://github.com/LocoPablito/MimicParty-Modding/releases/download/v1.0.0/MimicParty_Modding_Core_v1.0.0.zip",
+      "SHA256": "0d5977e016c3236f276ebef9a1e8a12ebdd9faa4620378981b450ffc40a5ea3b"
+    }
+  }
 }
