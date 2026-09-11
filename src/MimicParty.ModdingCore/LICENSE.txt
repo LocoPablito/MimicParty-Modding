@@ -1,1 +1,0 @@
-The project license is maintained in ../../LICENSE.txt. The released Core package includes that full license. Copyright (c) 2026 arribbaa. All rights reserved.

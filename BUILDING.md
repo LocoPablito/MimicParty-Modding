@@ -1,15 +1,13 @@
-# Building and release provenance
+# Building
 
-Use the .NET 8 SDK. Core targets net6.0 to match the embedded BepInEx runtime.
+Use the .NET 8 SDK. The Core targets net6.0 to match the pinned loader.
 
 ```powershell
-dotnet build src/MimicParty.ModdingCore -c Release
-dotnet build src/MimicParty.InteropBootstrap -c Release
-dotnet run --project tests/InteropBootstrap.Tests -c Release -f net8.0
+./build.ps1
 ```
 
-The public release keeps the exact Core binary from the verified CI artifact: source commit `46c03672bab67ed32a060198ec8f2d56d3fdfd6a`, workflow run `34606013538`. A fresh build from a later documentation commit can produce different assembly metadata and hashes even when runtime source is unchanged. Do not describe an unverified rebuild as byte-identical.
+The optional Developer Starter uses the installed Core DLL; follow examples/StarterMod/README.md.
 
-The bootstrap is built separately and its hash/source revision are recorded in the public package provenance. BepInEx and .NET build dependencies are retrieved from their declared package feeds during CI, not by the installed Core/Bootstrap at runtime.
+Publication extracts the pinned runtime bytes recorded in release.json instead of silently substituting a rebuild. Run `python scripts/package_release.py` with network access to reproduce the R2 archives from those inputs and the current documents. Different documentation changes archive hashes; the runtime hash is checked separately.
 
-Developer regression fixtures remain public for inspection. Private game captures, generated assemblies and diagnostic result archives do not belong in this repository or in release assets.
+The first-party runtime source remains inspectable. Private development captures and obsolete repair tools are not distribution inputs.

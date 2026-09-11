@@ -1,63 +1,35 @@
 [size=5][b]Mimic Party Modding Core[/b][/size]
-[b]Version 1.0.0 — by arribbaa[/b]
+[b]Runtime 1.0.0 · by arribbaa[/b]
 
-A shared runtime foundation for Mimic Party mods. Install it when a mod lists it as a requirement, or use the public API and Developer Starter to create your own independent C# plugin.
+The shared runtime foundation for independent Mimic Party mods. Provides build fingerprints, a mod registry, reflection helpers and guarded runtime patch transactions. The Core itself does not change gameplay or increase the player limit.
 
-[b]The Core alone does not increase the player limit or add a gameplay menu. You do not need 10 Player Expansion to develop a Core-based mod.[/b]
+[size=4][b]Requirements[/b][/size]
+[url=https://www.nexusmods.com/mimicparty/mods/3]BepInEx Pack for Mimic Party 1.0.0[/url]
+Mimic Party Windows x64 / Steam, documented v0.1.73 build, Unity 6000.4.2f1. The Pack provides BepInEx 6 IL2CPP x64 build 788 and the compatibility bootstrap. Do not use BepInEx 5 or a Mono loader. The 10 Player Expansion is NOT a Core requirement.
 
-[size=4][b]For players[/b][/size]
-Download the Main file: [b]Mimic Party Modding Core v1.0.0[/b].
-It includes Core runtime 1.0.0 and Interop Bootstrap 1.0.0 for the recognized generated-assembly compatibility issue. BepInEx itself is NOT included.
+[size=4][b]Installation[/b][/size]
+1. Close the game.
+2. Install the BepInEx Pack into the folder containing Mimic Party.exe.
+3. Extract the Core runtime ZIP into the same folder.
+4. Install the feature mod you want to use and start normally through Steam.
 
-Already using 10 Player Expansion Complete? Its Core and Bootstrap are identical; do not install renamed or duplicate copies.
+This R2 archive installs BepInEx/plugins/MimicPartyModdingCore.dll. It no longer duplicates the Pack's bootstrap. The Core DLL remains byte-for-byte identical to runtime 1.0.0. Documentation has its own MimicPartyModdingCore/ directory.
 
-[size=4][b]Requirements and installation[/b][/size]
-Documented setup: Mimic Party Windows x64 / Steam v0.1.73, Unity 6000.4.2f1, captured 11 September 2026.
-Use BepInEx 6 Unity IL2CPP Windows x64 build 788 — not BepInEx 5 or a Mono package.
-
-[url=https://github.com/LocoPablito/MimicParty-Modding/releases/tag/bepinex-pack-v1.0.0]BepInEx Pack for Mimic Party — configured loader option[/url]
-[url=https://builds.bepinex.dev/projects/bepinex_be/788/BepInEx-Unity.IL2CPP-win-x64-6.0.0-be.788%2B5b766a3.zip]Original official BepInEx build 788 — alternative, not an additional requirement[/url]
-
-1. Close the game. Restore original game files first if upgrading from an old on-disk game patch.
-2. Install ONE of the loader options above into the folder containing Mimic Party.exe.
-3. Extract the Core ZIP into the same folder, preserving BepInEx/plugins and BepInEx/patchers.
-4. Install your chosen feature mod. Start through Steam and allow first-start generation to finish.
-
-Expected author files:
-BepInEx/plugins/MimicPartyModdingCore.dll
-BepInEx/patchers/MimicParty.InteropBootstrap.dll
-
-The BepInEx Pack and Core contain the same Bootstrap at the same path. Do not create a second renamed DLL. The runtime setup is Loader → Core → your feature mod.
+Already using the older Expansion Complete package? Its Core DLL is the same version. Do not install renamed duplicates or delete the shared bootstrap in BepInEx/patchers.
 
 [size=4][b]For mod authors[/b][/size]
-The optional [b]Developer Starter v1.0.0[/b] is a source project, not a plugin to copy directly into the game. It demonstrates a hard dependency on Core, registration, a configuration entry, fingerprint logging and cleanup. It is compile-tested against the exact released Core DLL.
+The optional Developer Starter is a reusable C# source project, not an extra plugin for players to install. Declare the Core GUID com.arribbaa.mimicparty.moddingcore as a hard dependency and reference the installed DLL without copying it into your own distribution. Use your own unique GUID, title and author name for your independent mod.
+[url=https://github.com/LocoPablito/MimicParty-Modding/blob/main/docs/CORE_API_FOR_MOD_AUTHORS.md]Core API guide[/url]
+[url=https://github.com/LocoPablito/MimicParty-Modding/tree/main/examples/StarterMod]Developer Starter[/url]
 
-The Core provides:
-[list]
-[*]GameAssembly and metadata SHA-256 fingerprinting.
-[*]Executable-section signature resolution and expected-byte checks.
-[*]Transactional runtime patches with rollback and conflict-aware restoration.
-[*]Reflection helpers for uniquely identifying loaded types and methods.
-[*]A registry/API shared by Core-based mods.
-[/list]
+Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. No permission to rebrand or redistribute Core binaries is implied. The Core is not a no-code editor or a guarantee of multiplayer safety for arbitrary features.
 
-[url=https://github.com/LocoPablito/MimicParty-Modding/blob/main/examples/StarterMod/README.md]Getting started: build your first Core-based plugin[/url]
-[url=https://github.com/LocoPablito/MimicParty-Modding/blob/main/docs/CORE_API_FOR_MOD_AUTHORS.md]Public Core API[/url]
+[size=4][b]Compatibility and support[/b][/size]
+Core 1.0.0 loaded successfully with Expansion 1.1.2 in the documented Windows game installation. The Starter compiled against its API. A fresh Windows game launch through the Pack's automatic bootstrap route is not yet confirmed. Future builds are not automatically supported.
+[url=https://github.com/LocoPablito/MimicParty-Modding/blob/main/COMPATIBILITY.md]Exact compatibility information[/url]
 
-Core GUID: com.arribbaa.mimicparty.moddingcore
-Declare a BepInEx dependency on version 1.0.0 or later. Distribute your own DLL and declare the Core as a requirement rather than bundling another copy. Your new mod is your own project, with its own name and author credit.
-
-Independent mods using the documented API are permitted by the Core license. The StarterMod example files are separately MIT-licensed for reuse. The Core/Bootstrap binaries retain their own license. The Core is not a no-code editor, automatic network framework or guarantee of compatibility with unknown future game updates.
-
-[size=4][b]Compatibility and testing[/b][/size]
-Core 1.0.0 loaded successfully in an actual Windows session with Expansion 1.1.2. The released Core DLL remains unchanged. The automatic Bootstrap has 23 Windows regression checks and six supplied-assembly metadata/load checks; that is distinct from the earlier session's already-repaired installation. A fresh game launch of the new automatic pack route is not yet recorded. Check the included fingerprints and validation notes before claiming support for another build.
-
-[size=4][b]Uninstall and support[/b][/size]
-Remove dependent feature mods first, then remove MimicPartyModdingCore.dll when nothing uses it. Keep the loader/bootstrap if another mod needs them. Back up custom settings before changing an existing loader setup.
-For support, provide versions and the relevant BepInEx/LogOutput.log excerpt, with personal paths removed. Do not post game binaries or private diagnostic ZIPs. The Core/Bootstrap add no telemetry or auto-updater. The loader may download necessary reference libraries during first-start generation.
-
+Close the game before removing the Core DLL. Remove it only after dependent mods; keep the Pack when other mods need it. Include versions and a sanitized BepInEx/LogOutput.log excerpt when asking for support. Do not post game binaries or private diagnostic archives.
 [url=https://github.com/LocoPablito/MimicParty-Modding]Source and releases[/url]
 [url=https://github.com/LocoPablito/MimicParty-Modding/issues]Issue tracker[/url]
 
-[b]Author and maintainer: arribbaa.[/b]
-External loader/framework credits: BepInEx, HarmonyX and their contributors. Mimic Party and Unity belong to their respective owners. Unofficial community project; no endorsement is implied.
+Mod author and maintainer: arribbaa. External loader: BepInEx team and contributors. Mimic Party, Unity and related software belong to their respective owners. Unofficial community project.

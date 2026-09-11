@@ -1,57 +1,48 @@
-# Mimic Party Modding Core API — for mod authors
+# Core API for mod authors
 
-Core version: **1.0.0**. Core GUID: `com.arribbaa.mimicparty.moddingcore`.
-Namespace: `Arribbaa.MimicParty.ModdingCore`.
+Core GUID: `com.arribbaa.mimicparty.moddingcore`. Runtime: **1.0.0**. Namespace: `Arribbaa.MimicParty.ModdingCore`.
 
-## Start with a working project
+[Starter project](../examples/StarterMod/README.md) · [Core download](https://www.nexusmods.com/mimicparty/mods/2) · [Loader Pack](https://www.nexusmods.com/mimicparty/mods/3)
 
-[Developer Starter](../examples/StarterMod/README.md) provides a complete C# project, dependency declaration, configuration example, startup logging and cleanup. It has been compile-tested against the exact released Core DLL on Windows. Download the source-only starter from the Core 1.0.0 release assets; do not install it as a gameplay mod.
-
-The Core is a runtime library, not a no-code editor. You implement and test your own feature. It does not require 10 Player Expansion and does not automatically make arbitrary mods multiplayer-safe or compatible with future game versions.
-
-## Declare the runtime dependency
+## Declare a dependency
 
 ```csharp
 [BepInDependency("com.arribbaa.mimicparty.moddingcore", ">=1.0.0")]
 ```
 
-Compile against the installed `MimicPartyModdingCore.dll`. Do not copy a second Core into your feature archive; list the official Core as a requirement. The starter's project reference deliberately uses `Private=false`.
+Reference the installed Core DLL with `Private=false` so you do not distribute duplicate copies. BepInEx IL2CPP plugins derive from BasePlugin, not the Unity Mono BaseUnityPlugin.
 
-## Register and unregister your mod
+## Register your mod
 
 ```csharp
-CoreApi.Mods.Register("com.example.mimicparty.myplugin", "My Mimic Party Plugin", "1.0.0");
-// During your plugin's Unload:
+CoreApi.Mods.Register("com.example.mimicparty.myplugin", "My Plugin", "1.0.0");
+// In your plugin's Unload:
 CoreApi.Mods.Unregister("com.example.mimicparty.myplugin");
 ```
 
-`CoreApi.Mods.Registered` returns the registered entries; `IsRegistered(guid)` checks a registration. Registration does not install hooks or prove compatibility.
+Registered returns the current registry entries; IsRegistered checks a GUID. Registration alone does not install hooks or establish compatibility.
 
-## Game/build fingerprint
+## Build fingerprints
 
 ```csharp
-string assemblyHash = CoreApi.Build.GameAssemblySha256;
+string gameHash = CoreApi.Build.GameAssemblySha256;
 string metadataHash = CoreApi.Build.MetadataSha256;
 ```
 
-Use fingerprints for diagnostics and supported-build checks together with verified method/signature contracts. The Core exposes them; each feature mod remains responsible for deciding which builds are safe for its changes.
+Each mod must decide which builds and method contracts it supports. The Core is not a universal compatibility or multiplayer-safety layer.
 
-## Runtime patch transactions
+## Patch transactions
 
-`CoreApi.CreatePatchTransaction(ownerGuid)` creates a transaction. Each `Add` entry supplies a patch name, a researched signature, patch offset, expected bytes and replacement bytes. The signature must resolve exactly once. All requested patches are validated before the first write; already-applied writes are rolled back if an apply step fails.
+CoreApi.CreatePatchTransaction(ownerGuid) creates a transaction. Add entries with a researched signature, patch offset, expected bytes and same-length replacement bytes. The signature must resolve uniquely. All entries are resolved and their expected bytes checked before writes begin. Applied writes are rolled back on failure where matching-byte restoration is possible.
 
-**Lifetime is significant:** keep an active transaction in a plugin field for as long as the patch should remain installed. A local `using var` in `Load()` disposes it at the end of that method and undoes its matching modifications. Dispose during Unload and on failed initialization. Do not blindly restore bytes changed by another mod; the transaction implementation verifies matching replacement bytes before restoration.
+Keep the active transaction in a plugin field. A local `using var` inside Load disposes it at method exit and reverses matching changes. Dispose on Unload and on failed initialization. Use non-overlapping, in-bounds offsets verified for your target; arbitrary offsets are not made safe merely by a unique signature. Avoid concurrent patch mutation. Dispose only your own transactions and unpatch only your own Harmony ID.
 
-No copy-and-paste native signature is provided here: those bytes and offsets must come from analysis of the actual target build, not from a fabricated universal example.
+Restoration refuses bytes changed by another mod. Read/verify the behaviour you alter; patch installation alone does not establish complete gameplay behaviour. No universal copy-and-paste native signature is provided.
 
-## Reflection helpers
+## Reflection
 
-`ReflectionResolver.FindUniqueType()` and `FindUniqueMethod()` in `Arribbaa.MimicParty.ModdingCore.Runtime` operate on loaded assemblies, including generated IL2CPP interop types. Missing or ambiguous required targets must be handled explicitly. Do not select the first same-named method without checking its signature.
+ReflectionResolver.FindUniqueType and FindUniqueMethod in Arribbaa.MimicParty.ModdingCore.Runtime operate on loaded assemblies, including generated interop types. Handle missing or ambiguous targets explicitly. Prefer managed Harmony hooks where appropriate; use native writes only for researched IL2CPP paths that cannot be handled through the proxy.
 
-Prefer normal managed/Harmony hooks when practical. If you use Harmony, give your mod its own Harmony ID and remove only your own patches on unload. Native patterns are appropriate only for carefully validated IL2CPP paths that cannot be addressed cleanly through the generated proxies.
+## Distribution
 
-## Distribution and permissions
-
-Independent API-consuming mods may be created and distributed under the Core license. The provided StarterMod example files are separately MIT-licensed for reuse in your projects. Neither permission grants the right to rebrand or redistribute Core/Bootstrap binaries without permission.
-
-Do not publish game-derived interop assemblies, proprietary game binaries, private diagnostic ZIPs or copied account data. Include your own README/license and accurate game/loader/Core requirements. The BepInEx Pack is a loader option; it does not include the Core runtime. Complete 10 Player Expansion is one authorized first-party Core bundle, not a required dependency for your independent mod.
+Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Publish your own DLL, documentation and license. Declare the Core and Pack as prerequisites; the Expansion is not a prerequisite. Never redistribute game-generated interop assemblies or private diagnostic captures.

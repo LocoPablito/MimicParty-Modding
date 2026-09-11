@@ -1,13 +1,7 @@
-# Security and file behaviour
+# Security and support
 
-The public Core download contains two ordinary managed DLLs and documentation. It contains no EXE, BAT, CMD, PowerShell installer, password-protected archive, nested archive, private log or game/Unity binary. Source is available for inspection; the components are not obfuscated or packed.
+Obtain files from the official Nexus page or this repository's releases. SHA-256 manifests identify bytes; they do not certify safety or antivirus approval. Request review of unexpected detections rather than disabling protection.
 
-The Core supports runtime memory patching when a feature mod requests it. Pattern matching and expected-byte verification are used before writes, with transactional rollback. Runtime modifications can resemble behaviour heuristically flagged by antivirus tools. A hash proves file identity, not safety or moderation approval.
+The Core exposes native runtime patching to dependent mods. It checks unique signatures and expected bytes before applying a transaction and attempts matching-byte rollback. It does not sandbox another mod or validate arbitrary offsets for its author. Only load trusted feature mods.
 
-The Interop Bootstrap checks the game's SHA-256 fingerprints and the generated assembly structure. It changes only three TypeDef name indexes in the recognized malformed generated CoreModule, saves an original backup, and leaves an already-valid file unchanged. It may remove a hash-recognized obsolete CoreModule copy from BepInEx/core after backing it up. It disables UnityLogListening through the BepInEx configuration API. It does not replace native game binaries, scan unrelated folders, upload data, add an updater or change Windows/antivirus settings.
-
-The Core and bootstrap have no networking or telemetry. BepInEx itself can download Unity reference libraries during initial generation; this is separate upstream behaviour.
-
-Download only from the author's GitHub Releases or official Nexus listings. Compare SHA256SUMS.txt if checking file identity. If a security product reports a detection, retain the filename, SHA-256 and detection details and request review from the vendor/Nexus. Do not disable security protection merely to install the mod. A GitHub release is not a substitute for Nexus security approval.
-
-Report suspected vulnerabilities privately through the author's Nexus contact rather than posting private logs or binaries. General reproducible bugs can go to GitHub Issues with personal data removed.
+The Core has no telemetry, updater or downloader. The separate BepInEx Pack has its own documented file and network behaviour. Do not post private logs, account identifiers or game binaries publicly. Include versions and a sanitized error excerpt when reporting an issue.
