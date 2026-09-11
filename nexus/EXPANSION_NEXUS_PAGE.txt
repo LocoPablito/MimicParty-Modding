@@ -1,0 +1,32 @@
+MIMIC PARTY - 10 PLAYER EXPANSION v1.1.0
+by arribbaa
+
+MOD NAME
+10 Player Expansion
+
+VERSION
+1.1.0
+
+AUTHOR
+arribbaa
+
+REQUIREMENTS
+Mimic Party Modding Core v1.0.0+
+BepInEx 6 Unity IL2CPP x64 (required by the Core)
+
+FILE DISPLAY NAME
+Mimic Party - 10 Player Expansion v1.1.0
+
+SHORT DESCRIPTION
+Expands private Mimic Party lobbies from 5 to up to 10 players with runtime voice isolation and Rematch keep-lobby support. Requires Mimic Party Modding Core.
+
+FILE DESCRIPTION
+v1.1 migrates the 10 Player Expansion to a BepInEx runtime plugin. No permanent GameAssembly patching. Requires Mimic Party Modding Core v1.0.0 or newer.
+
+CHANGELOG
+Migrated from on-disk GameAssembly patching to a BepInEx IL2CPP runtime plugin.
+Added Mimic Party Modding Core v1.0.0+ as a hard dependency.
+Replaced fixed binary offsets with structural runtime signature resolution.
+Moved MaxPlayers, voice and Rematch behavior to runtime hooks.
+Added configurable lobby size from 6 to 10 players.
+Added transactional patch validation and rollback.

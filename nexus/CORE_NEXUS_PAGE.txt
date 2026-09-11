@@ -1,0 +1,58 @@
+MIMIC PARTY MODDING CORE v1.0.0
+by arribbaa
+
+MOD NAME
+Mimic Party Modding Core
+
+SHORT DESCRIPTION
+Shared BepInEx IL2CPP runtime foundation for Mimic Party mods, providing build detection, safe runtime pattern patching, rollback, reflection helpers and a common mod API.
+
+VERSION
+1.0.0
+
+AUTHOR
+arribbaa
+
+REQUIREMENTS
+BepInEx 6 - Unity IL2CPP - Windows x64
+
+FILE DISPLAY NAME
+Mimic Party Modding Core v1.0.0
+
+FILE DESCRIPTION
+Core runtime dependency for Mimic Party mods by arribbaa. Provides build fingerprinting, unique executable pattern resolution, transactional runtime patching with rollback, reflection helpers and a shared mod registry.
+
+FULL DESCRIPTION
+Mimic Party Modding Core is a shared runtime foundation for BepInEx-based Mimic Party mods.
+
+It does not replace or redistribute BepInEx. Install the official BepInEx 6 Unity IL2CPP x64 runtime first.
+
+Features:
+- Mimic Party build fingerprinting
+- GameAssembly executable-section scanner
+- unique pattern validation
+- transactional runtime patches
+- automatic rollback on patch failure
+- no permanent GameAssembly patching on disk
+- shared type/method resolution helpers
+- common mod registry/API
+
+Plugin GUID:
+com.arribbaa.mimicparty.moddingcore
+
+Other mod authors can declare:
+[BepInDependency("com.arribbaa.mimicparty.moddingcore", ">=1.0.0")]
+
+INSTALLATION
+1. Install BepInEx 6 Unity IL2CPP x64 into the Mimic Party game folder.
+2. Run Mimic Party once so BepInEx creates its folders/interop assemblies.
+3. Extract this mod into the Mimic Party game folder.
+4. Confirm MimicPartyModdingCore.dll is under BepInEx/plugins.
+5. Start the game.
+
+CHANGELOG
+Initial v1.0.0 release.
+Added Mimic Party build fingerprinting.
+Added executable-section pattern scanner.
+Added transactional runtime patching and rollback.
+Added reflection helpers and shared mod registry.
