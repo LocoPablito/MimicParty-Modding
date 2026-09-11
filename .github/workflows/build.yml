@@ -1,0 +1,31 @@
+name: Build Mimic Party mods
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore and build
+        shell: pwsh
+        run: ./build.ps1
+
+      - name: Upload Nexus-ready artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: MimicParty-Mod-Releases
+          path: dist/*.zip
+          if-no-files-found: error
