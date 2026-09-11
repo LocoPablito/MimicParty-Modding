@@ -1,0 +1,32 @@
+name: Repository snapshot
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/repository-snapshot.yml']
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Preserve public source revisions and release metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          for repo in MimicParty-Modding Mimic-Party-10-Player-Expansion BepInEx-Pack-for-Mimic-Party; do
+            git clone --mirror "https://github.com/LocoPablito/$repo.git" "$repo.git"
+            if git -C "$repo.git" rev-parse --verify HEAD >/dev/null 2>&1; then
+              git -C "$repo.git" bundle create "$GITHUB_WORKSPACE/out/$repo.bundle" --all
+              git -C "$repo.git" archive --format=zip -o "$GITHUB_WORKSPACE/out/$repo-source.zip" HEAD
+            fi
+            gh api "repos/LocoPablito/$repo/releases?per_page=100" > "out/$repo-releases.json"
+            gh api "repos/LocoPablito/$repo/branches?per_page=100" > "out/$repo-branches.json"
+          done
+      - uses: actions/upload-artifact@v6
+        with:
+          name: author-repository-snapshot
+          path: out/
+          retention-days: 1
