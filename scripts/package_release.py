@@ -77,7 +77,7 @@ def write_archive(filename, files, manifest_path):
     path = OUT / filename
     with zipfile.ZipFile(path, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(files.items()):
-            info = zipfile.ZipInfo(name, (2026, 9, 11, 0, 0, 0))
+            info = zipfile.ZipInfo(name, (2026, 9, 22, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, data)
@@ -101,6 +101,23 @@ provenance['RuntimeRecompiled'] = False
 provenance['ReleaseRepository'] = CFG['Repositories'][role]
 provenance['NexusPage'] = CFG['Nexus'][role]
 provenance['FreshAutomaticInstallConfirmed'] = False
+provenance['SupportedGameProfiles'] = [
+    {
+        'Label': 'v0.1.73 / Sep 11',
+        'GameAssemblySHA256': '44bbc82bdae73c1c86559a1f091ee9c7a3ae510a02c2d83f16b686ecdd9c8b11',
+        'MetadataSHA256': '1586b9dd69e488706671d35490cc16377a612ca3af521031ac44464929b21e94'
+    },
+    {
+        'Label': 'v0.2.3 / Sep 22',
+        'GameAssemblySHA256': 'adc318d8ad108a2eac4e130421d20c21aef840d8ec44203fba667d6eef08e199',
+        'MetadataSHA256': '96b52e058bbf5ea2a5218a2a6c01a9391c72eda9432b640bbdce8d2c10060405'
+    },
+    {
+        'Label': 'v0.2.33 / Sep 22',
+        'GameAssemblySHA256': '03757842d82c83534a686b0acbf247c9a5b76d0a15c74c7cb27458e731d4b9d4',
+        'MetadataSHA256': '7f4b0ab25b7ba8ee05d9abebd507d3e2af29bd94c5ae48f4daadc2ddedc8bbf2'
+    }
+]
 outputs = []
 
 if role == 'core':
