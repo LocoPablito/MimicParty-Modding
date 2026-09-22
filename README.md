@@ -9,13 +9,15 @@ Shared runtime API for independent Mimic Party mods: build fingerprints, mod reg
 ## Install
 
 1. Close Mimic Party.
-2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) 1.0.0, Windows x64 IL2CPP.
+2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.1** or newer compatible release, Windows x64 IL2CPP.
 3. Extract the **Core runtime ZIP** into the folder containing `Mimic Party.exe`.
 4. Install your chosen feature mod and start normally through Steam.
 
 This package installs only `BepInEx/plugins/MimicPartyModdingCore.dll`. Documentation lives in `MimicPartyModdingCore/` so it does not overwrite other packages' guides.
 
-**Revision R3:** BepInEx and Interop Bootstrap belong to the separate Pack and are not bundled here. The Core DLL itself is unchanged. Already using the older Expansion Complete package? Its Core DLL has the same hash; do not install a renamed duplicate or remove the shared bootstrap from `BepInEx/patchers`.
+**Revision R4:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R4 updates compatibility documentation for the captured Mimic Party **v0.2.3** build. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
+
+Already using the older Expansion Complete package? Its Core DLL has the same hash. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
 
 ## For mod authors
 
@@ -26,6 +28,8 @@ Declare `com.arribbaa.mimicparty.moddingcore` as a hard dependency with a compat
 Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Do not rebrand or redistribute Core binaries without permission. The Core never requires the 10 Player Expansion.
 
 ## Support and removal
+
+The Core reports the current GameAssembly and metadata fingerprints to dependent mods; feature mods remain responsible for validating the builds they patch.
 
 Use `BepInEx/LogOutput.log` for startup errors; remove private paths and identifiers before posting. Do not publish game binaries or diagnostic archives. Remove the Core DLL only after removing mods that require it. Keep the BepInEx Pack if other mods use it.
 
