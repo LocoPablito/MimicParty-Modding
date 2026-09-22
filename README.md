@@ -9,15 +9,15 @@ Shared runtime API for independent Mimic Party mods: build fingerprints, mod reg
 ## Install
 
 1. Close Mimic Party.
-2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.1** or newer compatible release, Windows x64 IL2CPP.
+2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.2** or newer compatible release, Windows x64 IL2CPP.
 3. Extract the **Core runtime ZIP** into the folder containing `Mimic Party.exe`.
 4. Install your chosen feature mod and start normally through Steam.
 
 This package installs only `BepInEx/plugins/MimicPartyModdingCore.dll`. Documentation lives in `MimicPartyModdingCore/` so it does not overwrite other packages' guides.
 
-**Revision R4:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R4 updates compatibility documentation for the captured Mimic Party **v0.2.3** build. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
+**Revision R5:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R5 updates compatibility documentation for the captured Mimic Party **v0.2.33** build. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
 
-Already using the older Expansion Complete package? Its Core DLL has the same hash. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
+Already using an older Expansion Complete package? Its Core DLL has the same runtime identity. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
 
 ## For mod authors
 
@@ -26,6 +26,10 @@ Download the optional **Developer Starter**, or use [the example project](https:
 Declare `com.arribbaa.mimicparty.moddingcore` as a hard dependency with a compatible version. Reference the installed Core DLL with `Private=false`, register your own unique mod GUID, and clean up your own hooks/transactions during unload.
 
 Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Do not rebrand or redistribute Core binaries without permission. The Core never requires the 10 Player Expansion.
+
+## v0.2.33 acceptance
+
+Core 1.0.0 loaded successfully on the captured v0.2.33 Windows build and reported the expected new GameAssembly and metadata fingerprints. No runtime DLL change was required.
 
 ## Support and removal
 
