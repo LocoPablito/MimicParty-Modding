@@ -1,36 +1,15 @@
 # Mimic Party Modding Core
 
-**Runtime 1.0.0 · by arribbaa**
+**Runtime 1.0.0 · packaging/compatibility revision R5 · by arribbaa**
 
-Shared runtime API for independent Mimic Party mods: build fingerprints, mod registration, reflection helpers and guarded runtime patch transactions. The Core does not change gameplay or raise the player limit on its own.
+Shared runtime API for independent Mimic Party mods: build fingerprints, mod registration, reflection helpers and guarded runtime patch transactions.
 
-[Download on Nexus](https://www.nexusmods.com/mimicparty/mods/2) · [GitHub downloads](https://github.com/LocoPablito/MimicParty-Modding/releases/latest) · [API guide](https://github.com/LocoPablito/MimicParty-Modding/blob/main/docs/CORE_API_FOR_MOD_AUTHORS.md) · [Report an issue](https://github.com/LocoPablito/MimicParty-Modding/issues)
+## v0.2.33
 
-## Install
+The Core runtime DLL itself does not require a binary change for the captured Mimic Party v0.2.33 build. R5 updates compatibility metadata and points users to BepInEx Pack **1.0.2**, whose Bootstrap 1.0.2 contains the verified v0.2.33 interop profile.
 
-1. Close Mimic Party.
-2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.1** or newer compatible release, Windows x64 IL2CPP.
-3. Extract the **Core runtime ZIP** into the folder containing `Mimic Party.exe`.
-4. Install your chosen feature mod and start normally through Steam.
+Requirements:
+- BepInEx Pack for Mimic Party **1.0.2**
+- Windows x64 / Steam / Unity IL2CPP
 
-This package installs only `BepInEx/plugins/MimicPartyModdingCore.dll`. Documentation lives in `MimicPartyModdingCore/` so it does not overwrite other packages' guides.
-
-**Revision R4:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R4 updates compatibility documentation for the captured Mimic Party **v0.2.3** build. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
-
-Already using the older Expansion Complete package? Its Core DLL has the same hash. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
-
-## For mod authors
-
-Download the optional **Developer Starter**, or use [the example project](https://github.com/LocoPablito/MimicParty-Modding/blob/main/examples/StarterMod/README.md). It is source code for developers, not a plugin players must install. A .NET SDK is needed to compile it, not to play.
-
-Declare `com.arribbaa.mimicparty.moddingcore` as a hard dependency with a compatible version. Reference the installed Core DLL with `Private=false`, register your own unique mod GUID, and clean up your own hooks/transactions during unload.
-
-Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Do not rebrand or redistribute Core binaries without permission. The Core never requires the 10 Player Expansion.
-
-## Support and removal
-
-The Core reports the current GameAssembly and metadata fingerprints to dependent mods; feature mods remain responsible for validating the builds they patch.
-
-Use `BepInEx/LogOutput.log` for startup errors; remove private paths and identifiers before posting. Do not publish game binaries or diagnostic archives. Remove the Core DLL only after removing mods that require it. Keep the BepInEx Pack if other mods use it.
-
-[Compatibility](https://github.com/LocoPablito/MimicParty-Modding/blob/main/COMPATIBILITY.md) · [Changelog](https://github.com/LocoPablito/MimicParty-Modding/blob/main/CHANGELOG.md) · [Build instructions](https://github.com/LocoPablito/MimicParty-Modding/blob/main/BUILDING.md) · [License](https://github.com/LocoPablito/MimicParty-Modding/blob/main/LICENSE.txt) · [Security](https://github.com/LocoPablito/MimicParty-Modding/blob/main/SECURITY.md)
+The Core runtime remains **1.0.0**.
