@@ -1,0 +1,36 @@
+name: v0.2.3 compatibility package
+on:
+  push:
+    branches: ['release/v0.2.3-compat']
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.425'
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Compile Core
+        shell: pwsh
+        run: ./build.ps1
+      - name: Compile Developer Starter
+        shell: pwsh
+        run: |
+          $Core = Join-Path $PWD 'src/MimicParty.ModdingCore/bin/Release/net6.0/MimicPartyModdingCore.dll'
+          dotnet build examples/StarterMod -c Release -p:CoreReference="$Core"
+          if ($LASTEXITCODE -ne 0) { throw 'Example build failed' }
+      - name: Assemble R4 candidate
+        shell: pwsh
+        run: |
+          python scripts/package_release.py
+          if ($LASTEXITCODE -ne 0) { throw 'Archive verification failed' }
+      - uses: actions/upload-artifact@v6
+        with:
+          name: modding-core-v100-r4-candidate
+          path: dist/
+          retention-days: 14
