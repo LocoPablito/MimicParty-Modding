@@ -1,5 +1,13 @@
 # Changelog
 
+## Packaging revision R7 — 30 September 2026
+
+- Promotes the Mimic Party **v0.2.5 / Steam build 25629135** compatibility set to the stable, live-verified release path.
+- Real Windows acceptance confirmed the BepInEx IL2CPP chainloader initialized and Core **1.0.0** loaded successfully.
+- Core reported the expected v0.2.5 GameAssembly and metadata fingerprints.
+- Core runtime DLL remains byte-for-byte unchanged; R7 is the final packaging/documentation revision for this game build.
+- Coordinated live acceptance also confirmed 10 Player Expansion 1.1.5 hook installation, native capacity patching and its 10/10/10 self-check.
+
 ## Packaging revision R6 — 30 September 2026
 
 - Documents the captured Mimic Party **v0.2.5** / Steam build **25629135** Windows x64 IL2CPP fingerprints.

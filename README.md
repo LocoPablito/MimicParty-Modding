@@ -15,7 +15,7 @@ Shared runtime API for independent Mimic Party mods: build fingerprints, mod reg
 
 This package installs only `BepInEx/plugins/MimicPartyModdingCore.dll`. Documentation lives in `MimicPartyModdingCore/` so it does not overwrite other packages' guides.
 
-**Revision R6:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R6 adds the captured Mimic Party **v0.2.5 / Steam build 25629135** fingerprints. The v0.2.5 R6 package is a prerelease until the coordinated Pack/Core/Expansion live acceptance run passes. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
+**Revision R7:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R7 is the stable, live-verified packaging revision for Mimic Party **v0.2.5 / Steam build 25629135**. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
 
 Already using an older Expansion Complete package? Its Core DLL has the same runtime identity. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
 
@@ -27,9 +27,11 @@ Declare `com.arribbaa.mimicparty.moddingcore` as a hard dependency with a compat
 
 Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Do not rebrand or redistribute Core binaries without permission. The Core never requires the 10 Player Expansion.
 
-## v0.2.5 compatibility candidate
+## v0.2.5 live acceptance
 
-The captured v0.2.5 / Steam build 25629135 uses new GameAssembly and metadata fingerprints while remaining on Unity 6000.4.2f1. Core 1.0.0 requires no binary change. Static compatibility capture is complete; coordinated live acceptance with Pack 1.0.3 and Expansion 1.1.5 is still pending.
+The captured v0.2.5 / Steam build 25629135 uses new GameAssembly and metadata fingerprints while remaining on Unity 6000.4.2f1. Core 1.0.0 requires no binary change.
+
+A real Windows acceptance run confirmed the IL2CPP chainloader initialized, Core 1.0.0 loaded normally and reported the expected v0.2.5 fingerprints. The coordinated Expansion 1.1.5 run also resolved and installed all required hooks and passed its native 10/10/10 capacity self-check.
 
 ## v0.2.33 historical live acceptance
 

@@ -10,7 +10,7 @@ Mimic Party Modding Core **1.0.0** is a shared runtime library. It fingerprints 
 - Unity **6000.4.2f1**
 - Windows x64 / Steam / IL2CPP
 - BepInEx **6.0.0-be.788**
-- Required Pack candidate for this captured build: **BepInEx Pack 1.0.3**
+- Required Pack for this captured build: **BepInEx Pack 1.0.3**
 
 GameAssembly.dll SHA-256:
 `02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a`
@@ -20,7 +20,7 @@ Mimic Party_Data/il2cpp_data/Metadata/global-metadata.dat SHA-256:
 
 The generated interop set was captured successfully and the Expansion's required reflected target names remain present in the new interop assemblies. Core **1.0.0** itself remains byte-for-byte unchanged.
 
-**Acceptance state:** static compatibility capture complete; live Core/feature acceptance is pending the Pack 1.0.3 candidate. This entry does not claim a successful plugin-chain live run yet.
+**Live acceptance:** a real Windows v0.2.5 run completed the Pack 1.0.3 interop compatibility step, initialized the IL2CPP chainloader and loaded Core 1.0.0 successfully. Core reported the expected GameAssembly and metadata fingerprints. The coordinated Expansion 1.1.5 run then resolved/installed all required hooks and passed its native 10/10/10 capacity self-check.
 
 ### Mimic Party v0.2.33 — captured 22 September 2026
 
