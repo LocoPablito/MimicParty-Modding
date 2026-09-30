@@ -9,13 +9,13 @@ Shared runtime API for independent Mimic Party mods: build fingerprints, mod reg
 ## Install
 
 1. Close Mimic Party.
-2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.2** or newer compatible release, Windows x64 IL2CPP.
+2. Install [BepInEx Pack for Mimic Party](https://www.nexusmods.com/mimicparty/mods/3) **1.0.3** or newer compatible release for Mimic Party v0.2.5, Windows x64 IL2CPP.
 3. Extract the **Core runtime ZIP** into the folder containing `Mimic Party.exe`.
 4. Install your chosen feature mod and start normally through Steam.
 
 This package installs only `BepInEx/plugins/MimicPartyModdingCore.dll`. Documentation lives in `MimicPartyModdingCore/` so it does not overwrite other packages' guides.
 
-**Revision R5:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R5 updates compatibility documentation for the captured Mimic Party **v0.2.33** build. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
+**Revision R6:** the Core runtime remains **1.0.0** and its DLL is byte-for-byte unchanged. R6 adds the captured Mimic Party **v0.2.5 / Steam build 25629135** fingerprints. The v0.2.5 R6 package is a prerelease until the coordinated Pack/Core/Expansion live acceptance run passes. BepInEx and the Interop Bootstrap belong to the separate Pack and are not bundled here.
 
 Already using an older Expansion Complete package? Its Core DLL has the same runtime identity. Do not install renamed duplicates or remove the shared bootstrap from `BepInEx/patchers`.
 
@@ -27,9 +27,13 @@ Declare `com.arribbaa.mimicparty.moddingcore` as a hard dependency with a compat
 
 Independent API-consuming mods are permitted by the Core license. Starter files are separately MIT-licensed. Do not rebrand or redistribute Core binaries without permission. The Core never requires the 10 Player Expansion.
 
-## v0.2.33 acceptance
+## v0.2.5 compatibility candidate
 
-Core 1.0.0 loaded successfully on the captured v0.2.33 Windows build and reported the expected new GameAssembly and metadata fingerprints. No runtime DLL change was required.
+The captured v0.2.5 / Steam build 25629135 uses new GameAssembly and metadata fingerprints while remaining on Unity 6000.4.2f1. Core 1.0.0 requires no binary change. Static compatibility capture is complete; coordinated live acceptance with Pack 1.0.3 and Expansion 1.1.5 is still pending.
+
+## v0.2.33 historical live acceptance
+
+Core 1.0.0 loaded successfully on the captured v0.2.33 Windows build and reported the expected GameAssembly and metadata fingerprints. No runtime DLL change was required.
 
 ## Support and removal
 

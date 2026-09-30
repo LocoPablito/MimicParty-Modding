@@ -116,6 +116,11 @@ provenance['SupportedGameProfiles'] = [
         'Label': 'v0.2.33 / Sep 22',
         'GameAssemblySHA256': '03757842d82c83534a686b0acbf247c9a5b76d0a15c74c7cb27458e731d4b9d4',
         'MetadataSHA256': '7f4b0ab25b7ba8ee05d9abebd507d3e2af29bd94c5ae48f4daadc2ddedc8bbf2'
+    },
+    {
+        'Label': 'v0.2.5 / Sep 30 / Steam 25629135',
+        'GameAssemblySHA256': '02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a',
+        'MetadataSHA256': 'dded356e7a47bc941b63e4a09280bd7fb8e777bf5748366d47345363df9a9bbf'
     }
 ]
 outputs = []

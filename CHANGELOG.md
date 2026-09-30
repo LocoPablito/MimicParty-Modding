@@ -1,5 +1,13 @@
 # Changelog
 
+## Packaging revision R6 — 30 September 2026
+
+- Documents the captured Mimic Party **v0.2.5** / Steam build **25629135** Windows x64 IL2CPP fingerprints.
+- Records GameAssembly SHA-256 `02546fc8797c32a9f98a8b93a7eefc11f52fb58e83fd51db29fd83eb5601d25a` and metadata SHA-256 `dded356e7a47bc941b63e4a09280bd7fb8e777bf5748366d47345363df9a9bbf`.
+- Keeps the Core **1.0.0** runtime DLL byte-for-byte unchanged; the build-fingerprint and reflection infrastructure itself does not require a binary change.
+- Points v0.2.5 users to the Pack **1.0.3** compatibility candidate and Expansion **1.1.5** compatibility candidate.
+- This revision is published as a **prerelease** until the v0.2.5 live startup/feature acceptance run completes; static capture alone is not represented as live verification.
+
 ## Packaging revision R5 — 22 September 2026
 
 - Documents the captured Mimic Party v0.2.33 Windows x64 / Steam fingerprint.
